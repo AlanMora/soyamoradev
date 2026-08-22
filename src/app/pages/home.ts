@@ -10,26 +10,62 @@ import { BUSINESS } from '../core/business';
     <!-- Hero -->
     <section class="relative overflow-hidden px-4 pb-20 pt-36 sm:px-6">
       <div class="mx-auto max-w-6xl">
-        <div class="mx-auto max-w-3xl text-center">
-          <span class="glass inline-flex items-center gap-2 !rounded-full px-4 py-1.5 text-sm text-brand-300">
-            <span class="h-2 w-2 rounded-full bg-brand-400" aria-hidden="true"></span>
-            API oficial de WhatsApp Business · Meta
-          </span>
-          <h1 class="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-6xl">
-            Mensajería por WhatsApp,
-            <span class="bg-gradient-to-r from-brand-400 to-emerald-300 bg-clip-text text-transparent">
-              oficial y a escala
+        <div class="grid items-center gap-12 lg:grid-cols-2">
+          <div class="text-center lg:text-left">
+            <span class="glass inline-flex items-center gap-2 !rounded-full px-4 py-1.5 text-sm text-brand-300">
+              <span class="h-2 w-2 rounded-full bg-brand-400" aria-hidden="true"></span>
+              API oficial de WhatsApp Business · Meta
             </span>
-          </h1>
-          <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-slate-300">
-            {{ b.brandName }} es un sistema de envío de mensajes por WhatsApp construido sobre la
-            <strong class="text-white">API oficial de WhatsApp Business (Meta)</strong>: campañas,
-            notificaciones transaccionales y conversaciones con tus clientes en México, con
-            consentimiento verificable y cumplimiento normativo.
-          </p>
-          <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <a routerLink="/contacto" class="btn-primary">Solicitar demo</a>
-            <a routerLink="/nosotros" class="btn-ghost">Conoce más</a>
+            <h1 class="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-6xl">
+              Mensajería por WhatsApp,
+              <span class="bg-gradient-to-r from-brand-400 to-emerald-300 bg-clip-text text-transparent">
+                oficial y a escala
+              </span>
+            </h1>
+            <p class="mt-6 text-lg leading-relaxed text-slate-300">
+              {{ b.brandName }} es un sistema de envío de mensajes por WhatsApp construido sobre la
+              <strong class="text-white">API oficial de WhatsApp Business (Meta)</strong>: campañas,
+              notificaciones transaccionales y conversaciones con tus clientes en México, con
+              consentimiento verificable y cumplimiento normativo.
+            </p>
+            <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
+              <a routerLink="/contacto" class="btn-primary">Solicitar demo</a>
+              <a routerLink="/nosotros" class="btn-ghost">Conoce más</a>
+            </div>
+          </div>
+
+          <!-- Mascota presentando el sistema -->
+          <div class="relative mx-auto w-full max-w-md" aria-hidden="true">
+            <img
+              src="mascot.svg"
+              alt=""
+              class="mx-auto h-[22rem] w-auto drop-shadow-[0_0_40px_rgba(37,211,102,0.25)] sm:h-[26rem]"
+            />
+
+            <!-- Mensajes del sistema flotando alrededor -->
+            <div class="card-float glass absolute left-0 top-8 flex items-center gap-2.5 px-4 py-3 text-xs sm:text-sm">
+              <span aria-hidden="true">📣</span>
+              <div>
+                <p class="font-semibold text-white">Campaña enviada</p>
+                <p class="text-slate-400">2,000 destinatarios · <span class="text-sky-400">✓✓</span></p>
+              </div>
+            </div>
+
+            <div class="card-float-delay glass absolute -right-2 top-1/3 flex items-center gap-2.5 px-4 py-3 text-xs sm:text-sm">
+              <span aria-hidden="true">🔔</span>
+              <div>
+                <p class="font-semibold text-white">Recordatorio de cita</p>
+                <p class="text-slate-400">Entregado · <span class="text-sky-400">✓✓</span></p>
+              </div>
+            </div>
+
+            <div class="card-float-delay2 glass absolute bottom-10 left-2 flex items-center gap-2.5 px-4 py-3 text-xs sm:text-sm">
+              <span aria-hidden="true">🛡️</span>
+              <div>
+                <p class="font-semibold text-white">Opt-in verificado</p>
+                <p class="text-slate-400">Consentimiento registrado</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -111,6 +147,17 @@ import { BUSINESS } from '../core/business';
         <a routerLink="/contacto" class="btn-primary mt-8">Contáctanos</a>
       </div>
     </section>
+  `,
+  styles: `
+    @keyframes cardFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .card-float { animation: cardFloat 4s ease-in-out infinite; }
+      .card-float-delay { animation: cardFloat 4s ease-in-out 1.3s infinite; }
+      .card-float-delay2 { animation: cardFloat 4s ease-in-out 2.6s infinite; }
+    }
   `,
 })
 export class Home {
