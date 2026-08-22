@@ -10,11 +10,7 @@ import { BUSINESS } from '../core/business';
     <header class="glass-nav fixed inset-x-0 top-0 z-50">
       <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <a routerLink="/" class="flex items-center gap-2" aria-label="Inicio">
-          <span
-            class="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-500 font-bold text-ink-900 shadow-lg shadow-brand-500/30"
-            aria-hidden="true"
-            >S</span
-          >
+          <img src="logo.svg" alt="" class="h-10 w-10 drop-shadow-[0_0_12px_rgba(37,211,102,0.45)]" />
           <span class="text-lg font-bold tracking-tight text-white">{{ brand }}</span>
         </a>
 

@@ -11,7 +11,10 @@ import { BUSINESS } from '../core/business';
       <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
         <div class="grid gap-10 md:grid-cols-3">
           <div>
-            <p class="text-lg font-bold text-white">{{ b.brandName }}</p>
+            <div class="flex items-center gap-2">
+              <img src="logo.svg" alt="" class="h-8 w-8" />
+              <p class="text-lg font-bold text-white">{{ b.brandName }}</p>
+            </div>
             <p class="mt-2 max-w-xs text-sm leading-relaxed text-slate-400">
               {{ b.description }}
             </p>
