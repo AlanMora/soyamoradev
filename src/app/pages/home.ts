@@ -52,40 +52,6 @@ import { AiDemo } from './home-ai-demo';
               data-depth="18"
               class="mx-auto h-[22rem] w-auto drop-shadow-[0_0_40px_rgba(37,211,102,0.25)] will-change-transform sm:h-[26rem]"
             />
-
-            <!-- Mensajes del sistema flotando alrededor -->
-            <div
-              data-depth="-30"
-              class="card-float glass absolute left-0 top-8 flex items-center gap-2.5 px-4 py-3 text-xs will-change-transform sm:text-sm"
-            >
-              <span aria-hidden="true">📣</span>
-              <div>
-                <p class="font-semibold text-white">Campaña enviada</p>
-                <p class="text-slate-400">2,000 destinatarios · <span class="text-sky-400">✓✓</span></p>
-              </div>
-            </div>
-
-            <div
-              data-depth="26"
-              class="card-float-delay glass absolute -right-2 top-1/3 flex items-center gap-2.5 px-4 py-3 text-xs will-change-transform sm:text-sm"
-            >
-              <span aria-hidden="true">🔔</span>
-              <div>
-                <p class="font-semibold text-white">Recordatorio de cita</p>
-                <p class="text-slate-400">Entregado · <span class="text-sky-400">✓✓</span></p>
-              </div>
-            </div>
-
-            <div
-              data-depth="-20"
-              class="card-float-delay2 glass absolute bottom-10 left-2 flex items-center gap-2.5 px-4 py-3 text-xs will-change-transform sm:text-sm"
-            >
-              <span aria-hidden="true">🛡️</span>
-              <div>
-                <p class="font-semibold text-white">Opt-in verificado</p>
-                <p class="text-slate-400">Consentimiento registrado</p>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -238,19 +204,16 @@ import { AiDemo } from './home-ai-demo';
     </section>
   `,
   styles: `
-    @keyframes cardFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-    @media (prefers-reduced-motion: no-preference) {
-      .card-float { animation: cardFloat 4s ease-in-out infinite; }
-      .card-float-delay { animation: cardFloat 4s ease-in-out 1.3s infinite; }
-      .card-float-delay2 { animation: cardFloat 4s ease-in-out 2.6s infinite; }
+    /* Solo el primer paso es visible por defecto; GSAP controla el resto.
+       Evita que los pasos se encimen antes de inicializar las animaciones. */
+    .story-step:not(:first-of-type) {
+      opacity: 0;
+      visibility: hidden;
     }
     /* Sin animaciones: los pasos se muestran apilados y legibles */
     @media (prefers-reduced-motion: reduce) {
       [data-story-pin] { min-height: auto; padding-block: 4rem; }
-      .story-step { position: static; margin-block: 2rem; }
+      .story-step { position: static; margin-block: 2rem; opacity: 1; visibility: visible; }
       .story-dot { display: none; }
     }
   `,
