@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "soyamoredev": {
+    "soyamoradev": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -64,10 +64,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "soyamoredev:build:production"
+              "buildTarget": "soyamoradev:build:production"
             },
             "development": {
-              "buildTarget": "soyamoredev:build:development"
+              "buildTarget": "soyamoradev:build:development"
             }
           },
           "defaultConfiguration": "development"

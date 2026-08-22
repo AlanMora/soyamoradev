@@ -1,6 +1,6 @@
-# SoyAmoreDev
+# SoyAmoraDev
 
-Sitio web oficial de **SoyAmoreDev** — sistema de envío de mensajes por WhatsApp mediante la **API oficial de WhatsApp Business (Meta)**.
+Sitio web oficial de **SoyAmoraDev** — sistema de envío de mensajes por WhatsApp mediante la **API oficial de WhatsApp Business (Meta)**.
 
 Construido para cumplir con los requisitos de **Meta Business Verification**: identidad del negocio consistente, HTTPS, información de contacto verificable, Aviso de Privacidad conforme a la LFPDPPP (México) y consentimiento explícito (opt-in) para comunicaciones por WhatsApp.
 
@@ -27,16 +27,16 @@ Construido para cumplir con los requisitos de **Meta Business Verification**: id
 npm install
 npm start          # dev server en http://localhost:4200
 npm run build      # build de producción + prerender
-npm run serve:ssr:soyamoredev  # servir el bundle SSR
+npm run serve:ssr:soyamoradev  # servir el bundle SSR
 ```
 
 ## Pendientes antes de la verificación de Meta
 
 - [ ] Reemplazar teléfono y domicilio reales en `src/app/core/business.ts`
-- [ ] Desplegar en `https://soyamoredev.com` con HTTPS
-- [ ] Configurar correo empresarial `hola@soyamoredev.com` (mismo dominio que el sitio)
+- [ ] Desplegar en `https://soyamoradev.com` con HTTPS
+- [ ] Configurar correo empresarial `hola@soyamoradev.com` (mismo dominio que el sitio)
 - [ ] Conectar el formulario de contacto a un backend que persista el registro de consentimiento (incluir IP/session del lado servidor)
 
 ---
 
-SoyAmoreDev es una marca operada por **Alan Eduardo Vázquez Mora**.
+SoyAmoraDev es una marca operada por **Alan Eduardo Vázquez Mora**.

@@ -193,7 +193,7 @@ export class Contacto {
       whatsappOptIn: v.whatsappOptIn,
       consentTextVersion: BUSINESS.whatsappOptInVersion,
       consentTimestamp: new Date().toISOString(),
-      consentSource: 'web:soyamoredev.com/contacto',
+      consentSource: 'web:soyamoradev.com/contacto',
     };
     // TODO: enviar `record` al backend para persistir el consentimiento
     // (número, fecha/hora, origen, versión del texto e IP/session del lado servidor).
