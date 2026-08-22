@@ -46,12 +46,23 @@ import { AiDemo } from './home-ai-demo';
 
           <!-- Mascota presentando el sistema -->
           <div class="relative mx-auto w-full max-w-md [transform-style:preserve-3d]" data-scene aria-hidden="true">
-            <img
-              src="mascot.svg"
-              alt=""
-              data-depth="18"
-              class="mx-auto h-[22rem] w-auto drop-shadow-[0_0_40px_rgba(37,211,102,0.25)] will-change-transform sm:h-[26rem]"
-            />
+            <div class="relative mx-auto w-fit will-change-transform" data-depth="18">
+              <img
+                src="mascot.svg"
+                alt=""
+                class="hero-pose h-[22rem] w-auto drop-shadow-[0_0_40px_rgba(37,211,102,0.25)] sm:h-[26rem]"
+              />
+              <img
+                src="mascot-pose2.svg"
+                alt=""
+                class="hero-pose absolute inset-0 h-[22rem] w-auto drop-shadow-[0_0_40px_rgba(56,189,248,0.25)] sm:h-[26rem]"
+              />
+              <img
+                src="mascot-pose3.svg"
+                alt=""
+                class="hero-pose absolute inset-0 h-[22rem] w-auto drop-shadow-[0_0_40px_rgba(37,211,102,0.3)] sm:h-[26rem]"
+              />
+            </div>
           </div>
         </div>
 
@@ -218,7 +229,8 @@ import { AiDemo } from './home-ai-demo';
     /* Solo el primer paso es visible por defecto; GSAP controla el resto.
        Evita que los pasos se encimen antes de inicializar las animaciones. */
     .story-step:not(:first-of-type),
-    .story-pose:not(:first-of-type) {
+    .story-pose:not(:first-of-type),
+    .hero-pose:not(:first-of-type) {
       opacity: 0;
       visibility: hidden;
     }
@@ -262,6 +274,27 @@ export class Home {
         delay: 0.3,
         ease: 'back.out(1.4)',
       });
+
+      // Hero: el robot rota sus 3 posturas en loop con giro 3D
+      const heroPoses = gsap.utils.toArray<HTMLElement>('.hero-pose');
+      if (heroPoses.length === 3) {
+        gsap.set(heroPoses.slice(1), { autoAlpha: 0, rotationY: 55, scale: 0.9 });
+        const HOLD = 4;
+        const TRANS = 0.55;
+        const cycle = gsap.timeline({ repeat: -1, delay: 3 });
+        heroPoses.forEach((pose, i) => {
+          const next = heroPoses[(i + 1) % heroPoses.length];
+          const at = i * (HOLD + TRANS);
+          cycle
+            .to(pose, { autoAlpha: 0, rotationY: -55, scale: 0.9, duration: TRANS, ease: 'power2.in' }, at + HOLD)
+            .fromTo(
+              next,
+              { autoAlpha: 0, rotationY: 55, scale: 0.9 },
+              { autoAlpha: 1, rotationY: 0, scale: 1, duration: TRANS, ease: 'power2.out' },
+              at + HOLD + TRANS * 0.45,
+            );
+        });
+      }
 
       // Scrollytelling: robot pineado; cada paso cambia texto Y postura del robot
       const steps = gsap.utils.toArray<HTMLElement>('.story-step');
