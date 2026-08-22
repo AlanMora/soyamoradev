@@ -130,13 +130,24 @@ import { AiDemo } from './home-ai-demo';
     <section data-story aria-labelledby="story-title">
       <div data-story-pin class="flex min-h-screen items-center overflow-hidden px-4 sm:px-6">
         <div class="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-2">
-          <div class="relative mx-auto [perspective:1100px]">
-            <img
-              src="mascot.svg"
-              alt=""
-              data-story-robot
-              class="h-[18rem] w-auto drop-shadow-[0_0_50px_rgba(37,211,102,0.3)] will-change-transform sm:h-[24rem]"
-            />
+          <div class="mx-auto [perspective:1100px]">
+            <div class="relative will-change-transform" data-story-robot>
+              <img
+                src="mascot.svg"
+                alt=""
+                class="story-pose h-[18rem] w-auto drop-shadow-[0_0_50px_rgba(37,211,102,0.3)] sm:h-[24rem]"
+              />
+              <img
+                src="mascot-pose2.svg"
+                alt=""
+                class="story-pose absolute inset-0 h-[18rem] w-auto drop-shadow-[0_0_50px_rgba(56,189,248,0.3)] sm:h-[24rem]"
+              />
+              <img
+                src="mascot-pose3.svg"
+                alt=""
+                class="story-pose absolute inset-0 h-[18rem] w-auto drop-shadow-[0_0_50px_rgba(37,211,102,0.35)] sm:h-[24rem]"
+              />
+            </div>
           </div>
           <div class="relative h-80 sm:h-72">
             <h2 id="story-title" class="sr-only">Así funciona</h2>
@@ -206,7 +217,8 @@ import { AiDemo } from './home-ai-demo';
   styles: `
     /* Solo el primer paso es visible por defecto; GSAP controla el resto.
        Evita que los pasos se encimen antes de inicializar las animaciones. */
-    .story-step:not(:first-of-type) {
+    .story-step:not(:first-of-type),
+    .story-pose:not(:first-of-type) {
       opacity: 0;
       visibility: hidden;
     }
@@ -251,12 +263,14 @@ export class Home {
         ease: 'back.out(1.4)',
       });
 
-      // Scrollytelling: robot pineado, la escena avanza con el scroll (scrub)
+      // Scrollytelling: robot pineado; cada paso cambia texto Y postura del robot
       const steps = gsap.utils.toArray<HTMLElement>('.story-step');
       const dots = gsap.utils.toArray<HTMLElement>('.story-dot');
+      const poses = gsap.utils.toArray<HTMLElement>('.story-pose');
       const robot = el.querySelector<HTMLElement>('[data-story-robot]');
-      if (steps.length === 3 && robot) {
+      if (steps.length === 3 && poses.length === 3 && robot) {
         gsap.set(steps.slice(1), { autoAlpha: 0, y: 70 });
+        gsap.set(poses.slice(1), { autoAlpha: 0, scale: 0.9, rotationY: 40 });
         gsap.set(dots[0], { backgroundColor: 'rgba(37,211,102,0.9)' });
         const tl = gsap.timeline({
           defaults: { ease: 'none' },
@@ -268,17 +282,32 @@ export class Home {
             scrub: 1,
           },
         });
-        tl.fromTo(robot, { rotationY: 0, scale: 0.94 }, { rotationY: 16, scale: 1.04, duration: 1 }, 0)
+        tl.fromTo(robot, { scale: 0.94 }, { scale: 1.02, duration: 1 }, 0)
+          // Paso 1 → 2: texto y cambio de postura (giro tipo "voltea y cambia")
           .to(steps[0], { autoAlpha: 0, y: -70, duration: 0.4 }, 0.8)
           .to(dots[0], { backgroundColor: 'rgba(255,255,255,0.15)', duration: 0.2 }, 0.8)
+          .to(poses[0], { autoAlpha: 0, scale: 0.9, rotationY: -40, duration: 0.35 }, 0.85)
           .fromTo(steps[1], { autoAlpha: 0, y: 70 }, { autoAlpha: 1, y: 0, duration: 0.4 }, 1.05)
+          .fromTo(
+            poses[1],
+            { autoAlpha: 0, scale: 0.9, rotationY: 40 },
+            { autoAlpha: 1, scale: 1.06, rotationY: 0, duration: 0.4 },
+            1.05,
+          )
           .to(dots[1], { backgroundColor: 'rgba(37,211,102,0.9)', duration: 0.2 }, 1.05)
-          .to(robot, { rotationY: -16, scale: 1.1, duration: 1 }, 1.0)
+          // Paso 2 → 3
           .to(steps[1], { autoAlpha: 0, y: -70, duration: 0.4 }, 1.85)
           .to(dots[1], { backgroundColor: 'rgba(255,255,255,0.15)', duration: 0.2 }, 1.85)
+          .to(poses[1], { autoAlpha: 0, scale: 0.9, rotationY: -40, duration: 0.35 }, 1.9)
           .fromTo(steps[2], { autoAlpha: 0, y: 70 }, { autoAlpha: 1, y: 0, duration: 0.4 }, 2.1)
+          .fromTo(
+            poses[2],
+            { autoAlpha: 0, scale: 0.9, rotationY: 40 },
+            { autoAlpha: 1, scale: 1.1, rotationY: 0, duration: 0.4 },
+            2.1,
+          )
           .to(dots[2], { backgroundColor: 'rgba(37,211,102,0.9)', duration: 0.2 }, 2.1)
-          .to(robot, { rotationY: 0, scale: 1.0, duration: 0.9 }, 2.1);
+          .to(robot, { y: -10, duration: 0.8 }, 2.2);
       }
 
       // Reveals al hacer scroll

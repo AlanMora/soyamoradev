@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" role="img" aria-label="Robot IA escalando con cumplimiento">
+  <defs>
+    <linearGradient id="mBody" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3ee88a"/>
+      <stop offset="0.55" stop-color="#25d366"/>
+      <stop offset="1" stop-color="#0d9488"/>
+    </linearGradient>
+    <linearGradient id="mMetal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f1f5f9"/>
+      <stop offset="0.5" stop-color="#cbd5e1"/>
+      <stop offset="1" stop-color="#94a3b8"/>
+    </linearGradient>
+    <linearGradient id="mDark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e293b"/>
+      <stop offset="1" stop-color="#0b1220"/>
+    </linearGradient>
+    <linearGradient id="mVisor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0f2027"/>
+      <stop offset="1" stop-color="#0b1220"/>
+    </linearGradient>
+    <radialGradient id="mEye" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#d1fae5"/>
+      <stop offset="0.55" stop-color="#34e27a"/>
+      <stop offset="1" stop-color="#0d9488"/>
+    </radialGradient>
+    <radialGradient id="mCore" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#a7f3d0"/>
+      <stop offset="0.6" stop-color="#25d366"/>
+      <stop offset="1" stop-color="#0d9488" stop-opacity="0.2"/>
+    </radialGradient>
+    <radialGradient id="mGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#25d366" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#25d366" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mJet" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a7f3d0"/>
+      <stop offset="0.5" stop-color="#34e27a"/>
+      <stop offset="1" stop-color="#34e27a" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Halo de piso (más lejos: está despegando) -->
+  <ellipse cx="110" cy="268" rx="55" ry="10" fill="url(#mGlow)">
+    <animate attributeName="rx" values="55;42;55" dur="1.6s" repeatCount="indefinite"/>
+  </ellipse>
+
+  <!-- Robot completo, ligeramente elevado -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 -6;0 -14;0 -6" dur="2.4s" repeatCount="indefinite"/>
+
+    <!-- Propulsión bajo las botas -->
+    <g>
+      <path d="M92 258c0 8-4 14-4 14s-4-6-4-14 2-10 4-10 4 2 4 10Z" fill="url(#mJet)" opacity="0.9">
+        <animate attributeName="opacity" values="0.9;0.5;0.9" dur="0.5s" repeatCount="indefinite"/>
+      </path>
+      <path d="M136 258c0 8-4 14-4 14s-4-6-4-14 2-10 4-10 4 2 4 10Z" fill="url(#mJet)" opacity="0.9">
+        <animate attributeName="opacity" values="0.5;0.9;0.5" dur="0.5s" repeatCount="indefinite"/>
+      </path>
+    </g>
+
+    <!-- Piernas juntas, en vuelo -->
+    <path d="M90 206c0-6 4-10 10-10s9 4 9 10v32c0 4-3 7-7 7h-5c-4 0-7-3-7-7Z" fill="url(#mDark)"/>
+    <path d="M111 206c0-6 3-10 9-10s10 4 10 10v32c0 4-3 7-7 7h-5c-4 0-7-3-7-7Z" fill="url(#mDark)"/>
+    <path d="M84 244h24a5 5 0 0 1 5 5v3H84a6 6 0 0 1-6-6c0-1 1-2 6-2Z" fill="url(#mBody)"/>
+    <path d="M112 244h24c5 0 6 1 6 2a6 6 0 0 1-6 6h-29v-3a5 5 0 0 1 5-5Z" fill="url(#mBody)"/>
+
+    <!-- Brazo derecho del robot (lado izq): puño arriba, despegue -->
+    <circle cx="80" cy="140" r="11" fill="url(#mMetal)"/>
+    <circle cx="80" cy="140" r="5" fill="#25d366" opacity="0.85"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0 80 140;-4 80 140;0 80 140" dur="2.4s" repeatCount="indefinite"/>
+      <rect x="60" y="86" width="12" height="58" rx="6" fill="url(#mBody)" transform="rotate(18 76 140)"/>
+      <circle cx="58" cy="90" r="9" fill="url(#mMetal)"/>
+      <!-- Estela del puño -->
+      <path d="M52 78l-6-10M58 76l-1-12M64 78l5-11" stroke="#34e27a" stroke-width="2" stroke-linecap="round" opacity="0.6">
+        <animate attributeName="opacity" values="0.6;0.15;0.6" dur="1.2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+
+    <!-- Holograma: gráfica creciendo -->
+    <g opacity="0.9">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -5;0 0" dur="2.2s" repeatCount="indefinite"/>
+      <rect x="146" y="60" width="7" height="18" rx="2" fill="#34e27a" opacity="0.5"/>
+      <rect x="157" y="48" width="7" height="30" rx="2" fill="#34e27a" opacity="0.7"/>
+      <rect x="168" y="34" width="7" height="44" rx="2" fill="#34e27a" opacity="0.9">
+        <animate attributeName="height" values="44;50;44" dur="1.6s" repeatCount="indefinite"/>
+        <animate attributeName="y" values="34;28;34" dur="1.6s" repeatCount="indefinite"/>
+      </rect>
+      <path d="M144 56l14-12 12-14" fill="none" stroke="#a7f3d0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M170 26l4 1-1 5" fill="none" stroke="#a7f3d0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <!-- Torso -->
+    <path d="M76 126c0-10 15-16 34-16s34 6 34 16l-4 58c-1 10-14 16-30 16s-29-6-30-16Z" fill="url(#mBody)"/>
+    <path d="M86 130c0-6 10-10 24-10s24 4 24 10l-2.5 34c-.7 7-9.5 11-21.5 11s-20.8-4-21.5-11Z" fill="url(#mDark)"/>
+    <!-- Escudo de cumplimiento en el pecho -->
+    <path d="M110 136l12 5v8c0 8-5 13-12 16-7-3-12-8-12-16v-8Z" fill="url(#mCore)">
+      <animate attributeName="opacity" values="1;0.75;1" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M104 149l4 4 8-9" fill="none" stroke="#0b1220" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="110" cy="150" r="17" fill="none" stroke="#34e27a" stroke-width="1" opacity="0.4">
+      <animate attributeName="r" values="15;21" dur="1.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Brazo izquierdo del robot (lado der): flexionado, sujetando teléfono al frente -->
+    <circle cx="140" cy="140" r="11" fill="url(#mMetal)"/>
+    <circle cx="140" cy="140" r="5" fill="#25d366" opacity="0.85"/>
+    <rect x="136" y="136" width="12" height="40" rx="6" fill="url(#mBody)" transform="rotate(-14 142 138)"/>
+    <circle cx="152" cy="174" r="8" fill="url(#mMetal)"/>
+    <g transform="rotate(-6 160 158)">
+      <rect x="150" y="140" width="20" height="36" rx="5" fill="url(#mDark)"/>
+      <rect x="152.5" y="144" width="15" height="26" rx="2.5" fill="#16233d"/>
+      <rect x="155" y="147" width="9" height="4" rx="2" fill="#25d366"><animate attributeName="opacity" values="1;0.35;1" dur="1.4s" repeatCount="indefinite"/></rect>
+      <rect x="158" y="154" width="7" height="4" rx="2" fill="#64748b"/>
+      <rect x="155" y="161" width="10" height="4" rx="2" fill="#25d366"><animate attributeName="opacity" values="0.35;1;0.35" dur="1.4s" repeatCount="indefinite"/></rect>
+    </g>
+
+    <!-- Cuello -->
+    <rect x="101" y="98" width="18" height="14" rx="6" fill="url(#mMetal)"/>
+    <rect x="98" y="106" width="24" height="5" rx="2.5" fill="#334155"/>
+
+    <!-- Cabeza: mirando arriba, triunfante -->
+    <g transform="rotate(-8 110 72)">
+      <path d="M68 72c0-20 18-32 42-32s42 12 42 32v10c0 14-19 22-42 22s-42-8-42-22Z" fill="url(#mMetal)"/>
+      <rect x="58" y="62" width="10" height="22" rx="5" fill="url(#mDark)"/>
+      <rect x="152" y="62" width="10" height="22" rx="5" fill="url(#mDark)"/>
+      <circle cx="63" cy="73" r="2.5" fill="#34e27a"><animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite"/></circle>
+      <circle cx="157" cy="73" r="2.5" fill="#34e27a"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.2s" repeatCount="indefinite"/></circle>
+      <path d="M76 68c0-10 14-16 34-16s34 6 34 16v6c0 9-14 15-34 15s-34-6-34-15Z" fill="url(#mVisor)"/>
+      <!-- Ojos: felices (arcos) -->
+      <path d="M92 70c2-4 8-4 10 0" fill="none" stroke="#34e27a" stroke-width="3" stroke-linecap="round"/>
+      <path d="M116 70c2-4 8-4 10 0" fill="none" stroke="#34e27a" stroke-width="3" stroke-linecap="round"/>
+      <!-- Sonrisa grande -->
+      <path d="M99 80c3.5 3.5 7.5 5 11 5s7.5-1.5 11-5" fill="none" stroke="#34e27a" stroke-width="2.2" stroke-linecap="round"/>
+      <!-- Antena -->
+      <rect x="107.5" y="26" width="5" height="16" rx="2.5" fill="#64748b"/>
+      <circle cx="110" cy="22" r="6" fill="url(#mEye)">
+        <animate attributeName="opacity" values="1;0.5;1" dur="1s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="110" cy="22" r="10" fill="none" stroke="#a7f3d0" stroke-width="1" opacity="0.4">
+        <animate attributeName="r" values="8;14" dur="1.4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.5;0" dur="1.4s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+</svg>
