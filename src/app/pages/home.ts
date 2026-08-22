@@ -1,5 +1,14 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  afterNextRender,
+  inject,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { BUSINESS } from '../core/business';
 
 @Component({
@@ -10,8 +19,8 @@ import { BUSINESS } from '../core/business';
     <!-- Hero -->
     <section class="relative overflow-hidden px-4 pb-20 pt-36 sm:px-6">
       <div class="mx-auto max-w-6xl">
-        <div class="grid items-center gap-12 lg:grid-cols-2">
-          <div class="text-center lg:text-left">
+        <div class="grid items-center gap-12 [perspective:1200px] lg:grid-cols-2" data-hero-zone>
+          <div class="text-center lg:text-left" data-hero>
             <span class="glass inline-flex items-center gap-2 !rounded-full px-4 py-1.5 text-sm text-brand-300">
               <span class="h-2 w-2 rounded-full bg-brand-400" aria-hidden="true"></span>
               API oficial de WhatsApp Business · Meta
@@ -35,15 +44,19 @@ import { BUSINESS } from '../core/business';
           </div>
 
           <!-- Mascota presentando el sistema -->
-          <div class="relative mx-auto w-full max-w-md" aria-hidden="true">
+          <div class="relative mx-auto w-full max-w-md [transform-style:preserve-3d]" data-scene aria-hidden="true">
             <img
               src="mascot.svg"
               alt=""
-              class="mx-auto h-[22rem] w-auto drop-shadow-[0_0_40px_rgba(37,211,102,0.25)] sm:h-[26rem]"
+              data-depth="18"
+              class="mx-auto h-[22rem] w-auto drop-shadow-[0_0_40px_rgba(37,211,102,0.25)] will-change-transform sm:h-[26rem]"
             />
 
             <!-- Mensajes del sistema flotando alrededor -->
-            <div class="card-float glass absolute left-0 top-8 flex items-center gap-2.5 px-4 py-3 text-xs sm:text-sm">
+            <div
+              data-depth="-30"
+              class="card-float glass absolute left-0 top-8 flex items-center gap-2.5 px-4 py-3 text-xs will-change-transform sm:text-sm"
+            >
               <span aria-hidden="true">📣</span>
               <div>
                 <p class="font-semibold text-white">Campaña enviada</p>
@@ -51,7 +64,10 @@ import { BUSINESS } from '../core/business';
               </div>
             </div>
 
-            <div class="card-float-delay glass absolute -right-2 top-1/3 flex items-center gap-2.5 px-4 py-3 text-xs sm:text-sm">
+            <div
+              data-depth="26"
+              class="card-float-delay glass absolute -right-2 top-1/3 flex items-center gap-2.5 px-4 py-3 text-xs will-change-transform sm:text-sm"
+            >
               <span aria-hidden="true">🔔</span>
               <div>
                 <p class="font-semibold text-white">Recordatorio de cita</p>
@@ -59,7 +75,10 @@ import { BUSINESS } from '../core/business';
               </div>
             </div>
 
-            <div class="card-float-delay2 glass absolute bottom-10 left-2 flex items-center gap-2.5 px-4 py-3 text-xs sm:text-sm">
+            <div
+              data-depth="-20"
+              class="card-float-delay2 glass absolute bottom-10 left-2 flex items-center gap-2.5 px-4 py-3 text-xs will-change-transform sm:text-sm"
+            >
               <span aria-hidden="true">🛡️</span>
               <div>
                 <p class="font-semibold text-white">Opt-in verificado</p>
@@ -72,7 +91,7 @@ import { BUSINESS } from '../core/business';
         <!-- Glass stats strip -->
         <div class="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-3">
           @for (stat of stats; track stat.label) {
-            <div class="glass px-6 py-5 text-center">
+            <div class="glass px-6 py-5 text-center" data-reveal>
               <p class="text-2xl font-bold text-white">{{ stat.value }}</p>
               <p class="mt-1 text-sm text-slate-400">{{ stat.label }}</p>
             </div>
@@ -91,7 +110,7 @@ import { BUSINESS } from '../core/business';
         </p>
         <div class="mt-12 grid gap-6 md:grid-cols-3">
           @for (f of features; track f.title) {
-            <article class="glass p-6 transition hover:-translate-y-1 hover:border-brand-400/30">
+            <article class="glass p-6 transition hover:-translate-y-1 hover:border-brand-400/30" data-reveal>
               <div
                 class="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-500/15 text-xl"
                 aria-hidden="true"
@@ -109,7 +128,7 @@ import { BUSINESS } from '../core/business';
     <!-- Cumplimiento -->
     <section class="px-4 py-16 sm:px-6" aria-labelledby="cumplimiento-title">
       <div class="mx-auto max-w-6xl">
-        <div class="glass-strong grid gap-10 p-8 md:grid-cols-2 md:p-12">
+        <div class="glass-strong grid gap-10 p-8 md:grid-cols-2 md:p-12" data-reveal>
           <div>
             <h2 id="cumplimiento-title" class="section-title">Cumplimiento primero</h2>
             <p class="mt-4 leading-relaxed text-slate-300">
@@ -139,7 +158,7 @@ import { BUSINESS } from '../core/business';
 
     <!-- CTA -->
     <section class="px-4 py-16 sm:px-6">
-      <div class="mx-auto max-w-3xl text-center">
+      <div class="mx-auto max-w-3xl text-center" data-reveal>
         <h2 class="section-title">¿Listo para empezar?</h2>
         <p class="mt-4 text-slate-400">
           Escríbenos y te ayudamos a conectar tu negocio con la API oficial de WhatsApp Business.
@@ -162,6 +181,89 @@ import { BUSINESS } from '../core/business';
 })
 export class Home {
   protected readonly b = BUSINESS;
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly destroyRef = inject(DestroyRef);
+
+  constructor() {
+    afterNextRender(() => this.initAnimations());
+  }
+
+  /** Animaciones GSAP: entrada del hero, parallax 3D con el mouse y reveals al scroll. */
+  private initAnimations(): void {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+    const el = this.host.nativeElement;
+    const ctx = gsap.context(() => {
+      // Entrada cinematográfica del hero
+      gsap.from('[data-hero] > *', {
+        y: 32,
+        opacity: 0,
+        duration: 0.9,
+        stagger: 0.12,
+        ease: 'power3.out',
+      });
+      gsap.from('[data-depth]', {
+        scale: 0.85,
+        opacity: 0,
+        duration: 1.1,
+        stagger: 0.15,
+        delay: 0.3,
+        ease: 'back.out(1.4)',
+      });
+
+      // Reveals al hacer scroll
+      gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((target) => {
+        gsap.from(target, {
+          y: 40,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: target, start: 'top 88%', once: true },
+        });
+      });
+    }, el);
+
+    // Parallax 3D: cada capa se mueve según su data-depth, la escena se inclina
+    const zone = el.querySelector<HTMLElement>('[data-hero-zone]');
+    const scene = el.querySelector<HTMLElement>('[data-scene]');
+    const layers = Array.from(el.querySelectorAll<HTMLElement>('[data-depth]')).map((layer) => ({
+      setX: gsap.quickTo(layer, 'x', { duration: 0.6, ease: 'power3.out' }),
+      setY: gsap.quickTo(layer, 'y', { duration: 0.6, ease: 'power3.out' }),
+      depth: Number(layer.dataset['depth'] ?? 0),
+    }));
+    const tiltX = scene ? gsap.quickTo(scene, 'rotationY', { duration: 0.8, ease: 'power3.out' }) : null;
+    const tiltY = scene ? gsap.quickTo(scene, 'rotationX', { duration: 0.8, ease: 'power3.out' }) : null;
+
+    const onMove = (e: MouseEvent) => {
+      if (!zone) return;
+      const rect = zone.getBoundingClientRect();
+      const rx = (e.clientX - rect.left) / rect.width - 0.5;
+      const ry = (e.clientY - rect.top) / rect.height - 0.5;
+      for (const l of layers) {
+        l.setX(rx * l.depth);
+        l.setY(ry * l.depth);
+      }
+      tiltX?.(rx * 10);
+      tiltY?.(ry * -8);
+    };
+    const onLeave = () => {
+      for (const l of layers) {
+        l.setX(0);
+        l.setY(0);
+      }
+      tiltX?.(0);
+      tiltY?.(0);
+    };
+    zone?.addEventListener('mousemove', onMove, { passive: true });
+    zone?.addEventListener('mouseleave', onLeave, { passive: true });
+
+    this.destroyRef.onDestroy(() => {
+      ctx.revert();
+      zone?.removeEventListener('mousemove', onMove);
+      zone?.removeEventListener('mouseleave', onLeave);
+    });
+  }
 
   protected readonly stats = [
     { value: 'API oficial', label: 'WhatsApp Business Platform (Meta)' },
