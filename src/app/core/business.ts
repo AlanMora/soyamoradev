@@ -9,7 +9,7 @@ export const BUSINESS = {
   legalType: 'Persona Física con Actividad Empresarial',
   email: 'hola@soyamoradev.com',
   phone: '+52 33 2296 7625',
-  address: 'Ciudad de México, México', // TODO: domicilio fiscal completo
+  address: 'Zapopan, Jalisco, México',
   website: 'https://soyamoradev.com',
   description:
     'SoyAmoraDev ofrece un sistema de envío de mensajes por WhatsApp a través de la API oficial de WhatsApp Business (Meta), para empresas en México.',
