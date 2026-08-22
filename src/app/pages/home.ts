@@ -10,11 +10,12 @@ import { RouterLink } from '@angular/router';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { BUSINESS } from '../core/business';
+import { AiDemo } from './home-ai-demo';
 
 @Component({
   selector: 'app-home',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, AiDemo],
   template: `
     <!-- Hero -->
     <section class="relative overflow-hidden px-4 pb-20 pt-36 sm:px-6">
@@ -125,6 +126,75 @@ import { BUSINESS } from '../core/business';
       </div>
     </section>
 
+    <!-- IA: diferenciador -->
+    <section class="px-4 py-16 sm:px-6" aria-labelledby="ia-title">
+      <div class="mx-auto max-w-6xl">
+        <div class="text-center">
+          <span class="glass inline-flex items-center gap-2 !rounded-full px-4 py-1.5 text-sm text-sky-300">
+            <span aria-hidden="true">🤖</span> Inteligencia Artificial integrada
+          </span>
+          <h2 id="ia-title" class="section-title mt-6">IA que trabaja por ti, 24/7</h2>
+          <p class="mx-auto mt-4 max-w-2xl text-slate-400">
+            No solo enviamos mensajes: nuestro agente IA entiende, responde y protege tu número.
+            Esto es lo que nos diferencia de un panel de envíos común.
+          </p>
+        </div>
+
+        <div class="mt-14 grid items-center gap-10 lg:grid-cols-2">
+          <!-- Demo en vivo -->
+          <app-ai-demo data-reveal />
+
+          <!-- Capacidades IA -->
+          <div class="grid gap-4 sm:grid-cols-2">
+            @for (f of aiFeatures; track f.title) {
+              <article class="glass p-5 transition hover:-translate-y-1 hover:border-sky-400/30" data-reveal>
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-500/15 text-lg" aria-hidden="true">
+                  {{ f.icon }}
+                </div>
+                <h3 class="mt-3 font-semibold text-white">{{ f.title }}</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-slate-400">{{ f.text }}</p>
+              </article>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scrollytelling: así funciona -->
+    <section data-story aria-labelledby="story-title">
+      <div data-story-pin class="flex min-h-screen items-center overflow-hidden px-4 sm:px-6">
+        <div class="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-2">
+          <div class="relative mx-auto [perspective:1100px]">
+            <img
+              src="mascot.svg"
+              alt=""
+              data-story-robot
+              class="h-[18rem] w-auto drop-shadow-[0_0_50px_rgba(37,211,102,0.3)] will-change-transform sm:h-[24rem]"
+            />
+          </div>
+          <div class="relative h-80 sm:h-72">
+            <h2 id="story-title" class="sr-only">Así funciona</h2>
+            @for (s of storySteps; track s.step) {
+              <div class="story-step absolute inset-0 flex flex-col justify-center">
+                <p class="text-sm font-bold uppercase tracking-[0.25em] text-brand-400">
+                  Paso {{ s.step }} / 3
+                </p>
+                <h3 class="mt-3 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                  {{ s.title }}
+                </h3>
+                <p class="mt-4 max-w-md text-lg leading-relaxed text-slate-300">{{ s.text }}</p>
+              </div>
+            }
+            <div class="absolute bottom-0 left-0 flex gap-2" aria-hidden="true">
+              @for (s of storySteps; track s.step) {
+                <span class="story-dot h-1.5 w-8 rounded-full bg-white/15"></span>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Cumplimiento -->
     <section class="px-4 py-16 sm:px-6" aria-labelledby="cumplimiento-title">
       <div class="mx-auto max-w-6xl">
@@ -177,6 +247,12 @@ import { BUSINESS } from '../core/business';
       .card-float-delay { animation: cardFloat 4s ease-in-out 1.3s infinite; }
       .card-float-delay2 { animation: cardFloat 4s ease-in-out 2.6s infinite; }
     }
+    /* Sin animaciones: los pasos se muestran apilados y legibles */
+    @media (prefers-reduced-motion: reduce) {
+      [data-story-pin] { min-height: auto; padding-block: 4rem; }
+      .story-step { position: static; margin-block: 2rem; }
+      .story-dot { display: none; }
+    }
   `,
 })
 export class Home {
@@ -211,6 +287,36 @@ export class Home {
         delay: 0.3,
         ease: 'back.out(1.4)',
       });
+
+      // Scrollytelling: robot pineado, la escena avanza con el scroll (scrub)
+      const steps = gsap.utils.toArray<HTMLElement>('.story-step');
+      const dots = gsap.utils.toArray<HTMLElement>('.story-dot');
+      const robot = el.querySelector<HTMLElement>('[data-story-robot]');
+      if (steps.length === 3 && robot) {
+        gsap.set(steps.slice(1), { autoAlpha: 0, y: 70 });
+        gsap.set(dots[0], { backgroundColor: 'rgba(37,211,102,0.9)' });
+        const tl = gsap.timeline({
+          defaults: { ease: 'none' },
+          scrollTrigger: {
+            trigger: '[data-story]',
+            pin: '[data-story-pin]',
+            start: 'top top',
+            end: '+=2400',
+            scrub: 1,
+          },
+        });
+        tl.fromTo(robot, { rotationY: 0, scale: 0.94 }, { rotationY: 16, scale: 1.04, duration: 1 }, 0)
+          .to(steps[0], { autoAlpha: 0, y: -70, duration: 0.4 }, 0.8)
+          .to(dots[0], { backgroundColor: 'rgba(255,255,255,0.15)', duration: 0.2 }, 0.8)
+          .fromTo(steps[1], { autoAlpha: 0, y: 70 }, { autoAlpha: 1, y: 0, duration: 0.4 }, 1.05)
+          .to(dots[1], { backgroundColor: 'rgba(37,211,102,0.9)', duration: 0.2 }, 1.05)
+          .to(robot, { rotationY: -16, scale: 1.1, duration: 1 }, 1.0)
+          .to(steps[1], { autoAlpha: 0, y: -70, duration: 0.4 }, 1.85)
+          .to(dots[1], { backgroundColor: 'rgba(255,255,255,0.15)', duration: 0.2 }, 1.85)
+          .fromTo(steps[2], { autoAlpha: 0, y: 70 }, { autoAlpha: 1, y: 0, duration: 0.4 }, 2.1)
+          .to(dots[2], { backgroundColor: 'rgba(37,211,102,0.9)', duration: 0.2 }, 2.1)
+          .to(robot, { rotationY: 0, scale: 1.0, duration: 0.9 }, 2.1);
+      }
 
       // Reveals al hacer scroll
       gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((target) => {
@@ -301,6 +407,57 @@ export class Home {
       icon: '📊',
       title: 'Reportes y auditoría',
       text: 'Trazabilidad completa: quién recibió qué, cuándo y bajo qué consentimiento. Exportable para auditorías.',
+    },
+  ];
+
+  protected readonly aiFeatures = [
+    {
+      icon: '💬',
+      title: 'Agente IA 24/7',
+      text: 'Responde preguntas frecuentes al instante, en tu tono de marca, y escala a un humano cuando la conversación lo requiere.',
+    },
+    {
+      icon: '🎯',
+      title: 'Clasificación de intención',
+      text: 'Cada mensaje entrante se etiqueta automáticamente: venta, soporte, queja o baja, y se enruta al flujo correcto.',
+    },
+    {
+      icon: '✍️',
+      title: 'Plantillas generadas con IA',
+      text: 'Redacta plantillas con alta probabilidad de aprobación por Meta y variantes A/B para mejorar conversión.',
+    },
+    {
+      icon: '📈',
+      title: 'Mejor hora de envío',
+      text: 'La IA aprende cuándo responde cada contacto y programa tus campañas en su horario de mayor apertura.',
+    },
+    {
+      icon: '🧠',
+      title: 'Análisis de sentimiento',
+      text: 'Detecta clientes molestos en tiempo real y los prioriza para atención humana antes de que escalen.',
+    },
+    {
+      icon: '🛡️',
+      title: 'Opt-out automático',
+      text: 'Entiende frases como "ya no me manden" y da de baja al contacto al instante: protege tu número y tu cumplimiento.',
+    },
+  ];
+
+  protected readonly storySteps = [
+    {
+      step: 1,
+      title: 'Conecta tu número',
+      text: 'Onboarding guiado a la API oficial de WhatsApp Business (Meta): verificación, display name y plantillas aprobadas.',
+    },
+    {
+      step: 2,
+      title: 'Automatiza con IA',
+      text: 'El agente IA responde 24/7, clasifica intenciones, detecta sentimiento y escala a tu equipo cuando hace falta.',
+    },
+    {
+      step: 3,
+      title: 'Escala con cumplimiento',
+      text: 'Campañas a miles de contactos con opt-in verificable, baja automática y trazabilidad completa para auditorías.',
     },
   ];
 
