@@ -8,7 +8,7 @@ export const BUSINESS = {
   legalName: 'Alan Eduardo Vázquez Mora',
   legalType: 'Persona Física con Actividad Empresarial',
   email: 'hola@soyamoradev.com',
-  phone: '+52 000 000 0000', // TODO: reemplazar con teléfono real registrado ante Meta
+  phone: '+52 33 2296 7625',
   address: 'Ciudad de México, México', // TODO: domicilio fiscal completo
   website: 'https://soyamoradev.com',
   description:

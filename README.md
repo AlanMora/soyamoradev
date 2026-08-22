@@ -32,7 +32,7 @@ npm run serve:ssr:soyamoradev  # servir el bundle SSR
 
 ## Pendientes antes de la verificación de Meta
 
-- [ ] Reemplazar teléfono y domicilio reales en `src/app/core/business.ts`
+- [ ] Reemplazar domicilio fiscal real en `src/app/core/business.ts`
 - [ ] Desplegar en `https://soyamoradev.com` con HTTPS
 - [ ] Configurar correo empresarial `hola@soyamoradev.com` (mismo dominio que el sitio)
 - [ ] Conectar el formulario de contacto a un backend que persista el registro de consentimiento (incluir IP/session del lado servidor)
