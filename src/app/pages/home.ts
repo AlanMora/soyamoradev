@@ -290,7 +290,14 @@ export class Home {
             .fromTo(
               next,
               { autoAlpha: 0, rotationY: 55, scale: 0.9 },
-              { autoAlpha: 1, rotationY: 0, scale: 1, duration: TRANS, ease: 'power2.out' },
+              {
+                autoAlpha: 1,
+                rotationY: 0,
+                scale: 1,
+                duration: TRANS,
+                ease: 'power2.out',
+                immediateRender: false,
+              },
               at + HOLD + TRANS * 0.45,
             );
         });
